@@ -1,13 +1,19 @@
 ---
 import Layout from "../layouts/BaseLayout.astro";
-import Article from "../components/Article.astro";
+
+// Components
+import RecentArticles from "../components/RecentArticles.astro";
+import Desc from "../components/Desc.astro";
 ---
 
 <Layout>
   <div class="flex">
     <!-- List of Articles -->
-    <div class="basis-2/3">
-      <Article />
+    <div class="basis-2/3 px-16 py-8 flex flex-col items-center">
+        <div class="mb-7 mx-2">
+          <Desc />
+        </div>
+        <RecentArticles />
     </div>
 
 	<!-- Aside -->
