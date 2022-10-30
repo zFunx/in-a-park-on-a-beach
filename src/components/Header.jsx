@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 // Icons
-import { Edit } from "@styled-icons/fluentui-system-filled/Edit";
-import { Tick } from "@styled-icons/typicons/Tick";
+import { Edit } from "@styled-icons/fluentui-system-filled";
+import { Tick } from "@styled-icons/typicons";
 
 const Logo = (props) => (
   <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={props.title} />
