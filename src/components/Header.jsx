@@ -1,18 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
+
+// Icons
+import { Edit } from "@styled-icons/fluentui-system-filled/Edit";
+import { Tick } from "@styled-icons/typicons/Tick";
+
+const Logo = (props) => (
+  <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={props.title} />
+);
 
 const Header = (props) => {
   const { title, isLoggedIn } = props;
+
+  // Edit title
+  const [editTitle, setEditTitle] = useState(false);
+  function enableTitleEditing() {
+    setEditTitle(true);
+  }
+  function saveTitle() {
+    setEditTitle(false);
+  }
 
   return (
     <header>
       <nav className="bg-white drop-shadow px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between">
-          <a href="/" className="flex items-center">
-            <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={title} />
-            <span className="self-center text-xl font-semibold whitespace-nowrap text-black">
-              {title}
-            </span>
-          </a>
+          <div className="flex flex">
+            {editTitle ? (
+              <span className="flex items-center">
+                <Logo title={title} />
+                <input
+                  value={title}
+                  className="self-center text-xl font-semibold whitespace-nowrap text-black"
+                />
+              </span>
+            ) : (
+              <a href="/" className="flex items-center">
+                <Logo title={title} />
+                <span className="self-center text-xl font-semibold whitespace-nowrap text-black">
+                  {title}
+                </span>
+              </a>
+            )}
+            {isLoggedIn && (
+              <div
+                className="w-[1rem] ml-2 cursor-pointer"
+                onClick={editTitle ? saveTitle : enableTitleEditing}
+              >
+                {editTitle ? <Tick size={20} /> : <Edit />}
+              </div>
+            )}
+          </div>
           {isLoggedIn && (
             <div className="flex items-center lg:order-2">
               <a

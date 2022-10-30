@@ -24,7 +24,8 @@ const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
     <title>{title}</title>
   </head>
   <body>
-    <Header title={navTitle} isLoggedIn={isLoggedIn}/>
+    {isLoggedIn ? <Header title={navTitle} isLoggedIn={isLoggedIn} client:load /> : <Header title={navTitle} />}
+    
     <slot />
   </body>
 </html>
