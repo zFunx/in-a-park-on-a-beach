@@ -7,6 +7,10 @@ export interface Props {
 
 const navTitle = "In a Park. On a Beach";
 const { title = navTitle } = Astro.props;
+
+const cookie = Astro.request.headers.get('cookie');
+const cookieObj = JSON.parse(cookie)
+const isLoggedIn = cookieObj.isLoggedIn;
 ---
 
 <!DOCTYPE html>
@@ -19,7 +23,7 @@ const { title = navTitle } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <Header title={navTitle} />
+    <Header title={navTitle} isLoggedIn={isLoggedIn}/>
     <slot />
   </body>
 </html>
