@@ -1,9 +1,28 @@
 ---
 import Article from "../components/Article.astro";
 
+const articles = [
+  {
+    title: "New Article",
+    description: "lorem ipsum lorem ipsum ",
+    updated_at: "Mar 14, 2022",
+    img: "https://media.istockphoto.com/photos/taking-notes-on-a-ring-binded-notepad-inf-picture-id1315904960?b=1&k=20&m=1315904960&s=170667a&w=0&h=DAzctGlI9mREbPS7eWByiz42KN1p795OaomGlBW7X9s=",
+  },
+  {
+    title: "Second Article",
+    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+    updated_at: "Sep 13, 2022",
+    img: "https://picsum.photos/seed/2/200/200",
+  },
+];
 ---
 
 <div>
-    <Article />
-    <Article />
+  {
+    articles.map((article) => (
+      <div class="mb-6">
+        <Article {...article} />
+      </div>
+    ))
+  }
 </div>
