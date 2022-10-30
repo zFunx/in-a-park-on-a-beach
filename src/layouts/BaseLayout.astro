@@ -10,7 +10,7 @@ const { title = navTitle } = Astro.props;
 
 const cookie = Astro.request.headers.get('cookie');
 const cookieObj = JSON.parse(cookie)
-const isLoggedIn = cookieObj.isLoggedIn;
+const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
 ---
 
 <!DOCTYPE html>
