@@ -4,20 +4,44 @@ import React, { useState } from "react";
 import { Edit } from "@styled-icons/fluentui-system-filled";
 import { Tick } from "@styled-icons/typicons";
 
+// Helpers
+import {setDocument} from '../lib/about-site-firebase-helper.js'
+
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
+console.log('current user', auth.currentUser);
+const db = getFirestore(firebase);
+
+
+
 const Logo = (props) => (
   <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={props.title} />
 );
 
 const Header = (props) => {
-  const { title, isLoggedIn } = props;
+  const { isLoggedIn } = props;
 
   // Edit title
   const [editTitle, setEditTitle] = useState(false);
+  const [title, setTitle] = useState(props.title);
   function enableTitleEditing() {
     setEditTitle(true);
   }
   function saveTitle() {
     setEditTitle(false);
+  }
+  function onTitleChanged(event) {
+    const val = event.target.value
+    setTitle(val)
+  }
+  function changeTitleOnServer(){
+    console.log('Updating title');
+    setDocument(db, 'about-site', 'title', {
+      title
+    })
   }
 
   return (
@@ -30,6 +54,7 @@ const Header = (props) => {
                 <Logo title={title} />
                 <input
                   value={title}
+                  onChange={onTitleChanged}
                   className="self-center text-xl font-semibold whitespace-nowrap text-black"
                 />
               </span>
@@ -46,7 +71,7 @@ const Header = (props) => {
                 className="w-[1rem] ml-2 cursor-pointer"
                 onClick={editTitle ? saveTitle : enableTitleEditing}
               >
-                {editTitle ? <Tick size={20} /> : <Edit />}
+                {editTitle ? <Tick size={20} onClick={changeTitleOnServer} /> : <Edit />}
               </div>
             )}
           </div>
