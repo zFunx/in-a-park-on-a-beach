@@ -12,7 +12,7 @@ import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 const auth = getAuth();
-console.log('current user', auth.currentUser);
+// console.log('current user', auth.currentUser);
 const db = getFirestore(firebase);
 
 
