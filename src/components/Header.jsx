@@ -5,7 +5,7 @@ import { Edit } from "@styled-icons/fluentui-system-filled";
 import { Tick } from "@styled-icons/typicons";
 
 // Helpers
-import {setDocument} from '../lib/about-site-firebase-helper.js'
+import { setTitle as setTitleInFirebase } from "../lib/about-site-firebase-helper.js";
 
 // Firebase
 import firebase from "../lib/init-firebase";
@@ -14,8 +14,6 @@ import { getAuth } from "firebase/auth";
 const auth = getAuth();
 // console.log('current user', auth.currentUser);
 const db = getFirestore(firebase);
-
-
 
 const Logo = (props) => (
   <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={props.title} />
@@ -34,14 +32,11 @@ const Header = (props) => {
     setEditTitle(false);
   }
   function onTitleChanged(event) {
-    const val = event.target.value
-    setTitle(val)
+    const val = event.target.value;
+    setTitle(val);
   }
-  function changeTitleOnServer(){
-    console.log('Updating title');
-    setDocument(db, 'about-site', 'title', {
-      title
-    })
+  function changeTitleOnServer() {
+    setTitleInFirebase({ db, title });
   }
 
   return (
@@ -71,7 +66,11 @@ const Header = (props) => {
                 className="w-[1rem] ml-2 cursor-pointer"
                 onClick={editTitle ? saveTitle : enableTitleEditing}
               >
-                {editTitle ? <Tick size={20} onClick={changeTitleOnServer} /> : <Edit />}
+                {editTitle ? (
+                  <Tick size={20} onClick={changeTitleOnServer} />
+                ) : (
+                  <Edit />
+                )}
               </div>
             )}
           </div>

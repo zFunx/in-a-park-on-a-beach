@@ -1,21 +1,52 @@
 import { collection, addDoc, doc, setDoc, getDoc } from "firebase/firestore";
+import Toastify from 'toastify-js'
 
-export default function create(db,) {
-
+export function setTitle({ db, title }) {
+    setDocument({
+        db,
+        collectionName: 'about-site',
+        docName: 'title',
+        docData: {
+            title
+        },
+        successCallback:() => Toastify({
+            text: 'Title updated successfully',
+            duration: 3000,
+            // destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "green",
+            },
+            // onClick: function () { } // Callback after click
+        }).showToast(),
+        errorCallback:() => Toastify({
+            text: 'Something went wrong while updating the title',
+            duration: 3000,
+            // destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "red",
+            },
+            // onClick: function () { } // Callback after click
+        }).showToast()
+    })
 }
 
-export function addDocument(db, collectionName, docName, docData) {
-    try {
-        const docRef = doc(db, collectionName, docName);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-
-export function setDocument(db, collectionName, docName, docData) {
+export function setDocument({ db, collectionName, docName, docData, successCallback, errorCallback }) {
     const docRef = doc(db, collectionName, docName);
-    setDoc(docRef, docData).then().catch(err => {
-        console.error("Error setting document: ", err)
+    setDoc(docRef, docData).then(() => {
+        successCallback && successCallback();
+    }).catch(err => {
+        console.error("Error setting document: ", err);
+        errorCallback && errorCallback()
     })
 }
 
