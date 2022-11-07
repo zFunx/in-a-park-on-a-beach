@@ -10,9 +10,6 @@ import { setTitle as setTitleInFirebase } from "../lib/about-site-firebase-helpe
 // Firebase
 import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-const auth = getAuth();
-// console.log('current user', auth.currentUser);
 const db = getFirestore(firebase);
 
 const Logo = (props) => (

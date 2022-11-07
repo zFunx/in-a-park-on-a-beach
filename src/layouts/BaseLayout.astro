@@ -3,10 +3,11 @@
 import Header from "../components/Header.jsx";
 
 // Helpers
-import {getDocument} from "../lib/about-site-firebase-helper";
+import { getTitle } from "../lib/about-site-firebase-helper";
 
 // Style
-import "toastify-js/src/toastify.css"
+import "toastify-js/src/toastify.css";
+
 export interface Props {
   title?: string;
 }
@@ -17,15 +18,14 @@ import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
 
 // Title
-let navTitle = await getDocument(db, 'about-site', 'title');
-if(!navTitle){
-  navTitle = "In a Park. On a Beach"
+let navTitle = await getTitle(db);
+if (!navTitle) {
+  navTitle = "In a Park. On a Beach";
 }
 const title = Astro.props.title ?? navTitle;
 
-
-const cookie = Astro.request.headers.get('cookie');
-const cookieObj = JSON.parse(cookie)
+const cookie = Astro.request.headers.get("cookie");
+const cookieObj = JSON.parse(cookie);
 const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
 ---
 
@@ -39,8 +39,14 @@ const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
     <title>{title}</title>
   </head>
   <body>
-    {isLoggedIn ? <Header title={navTitle} isLoggedIn={isLoggedIn} client:load /> : <Header title={navTitle} />}
-    
+    {
+      isLoggedIn ? (
+        <Header title={navTitle} isLoggedIn={isLoggedIn} client:load />
+      ) : (
+        <Header title={navTitle} />
+      )
+    }
+
     <slot />
   </body>
 </html>

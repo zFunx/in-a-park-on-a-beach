@@ -1,1 +1,8 @@
-Create article
+---
+// Components
+import Layout from "../../layouts/BaseLayout.astro";
+import Create from "../../components/Create"
+---
+<Layout>
+  <Create client:only="react" />
+</Layout>
