@@ -1,5 +1,5 @@
 import { setDocument, getDocument } from "./firebase-helper";
-import Toastify from 'toastify-js'
+import { showSuccessMessage, showErrorMessage } from './toast-notification'
 
 export function setTitle({ db, title }) {
     setDocument({
@@ -9,34 +9,8 @@ export function setTitle({ db, title }) {
         docData: {
             title
         },
-        successCallback: () => Toastify({
-            text: 'Title updated successfully',
-            duration: 3000,
-            // destination: "https://github.com/apvarun/toastify-js",
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "green",
-            },
-            // onClick: function () { } // Callback after click
-        }).showToast(),
-        errorCallback: () => Toastify({
-            text: 'Something went wrong while updating the title',
-            duration: 3000,
-            // destination: "https://github.com/apvarun/toastify-js",
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "red",
-            },
-            // onClick: function () { } // Callback after click
-        }).showToast()
+        successCallback: () => showSuccessMessage('Title updated successfully'),
+        errorCallback: () => showErrorMessage('Something went wrong while updating the title'),
     })
 }
 

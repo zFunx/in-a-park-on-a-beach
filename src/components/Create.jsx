@@ -48,7 +48,6 @@ const Create = () => {
   const [description, setDescription] = useState("");
 
   function onSubmit(value) {
-    console.log("New content", value);
     createArticle({db, title, description});
   }
   return (
