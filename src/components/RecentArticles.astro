@@ -1,27 +1,19 @@
 ---
 import Article from "../components/Article.astro";
+import { format } from 'date-fns'
 
-const articles = [
-  {
-    title: "New Article",
-    description: "lorem ipsum lorem ipsum ",
-    updated_at: "Mar 14, 2022",
-    img: "https://media.istockphoto.com/photos/taking-notes-on-a-ring-binded-notepad-inf-picture-id1315904960?b=1&k=20&m=1315904960&s=170667a&w=0&h=DAzctGlI9mREbPS7eWByiz42KN1p795OaomGlBW7X9s=",
-  },
-  {
-    title: "Second Article",
-    description: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
-    updated_at: "Sep 13, 2022",
-    img: "https://picsum.photos/seed/2/200/200",
-  },
-];
+const {articles} = Astro.props;
 ---
 
 <div>
   {
     articles.map((article) => (
       <div class="mb-6">
-        <Article {...article} />
+        <Article 
+        title={article.title}
+        // updated_at={article.updated_at.toDate()}
+        updated_at={format(new Date(article.updated_at.toDate()), 'do MMM yyyy')}
+        description={article.description.replace(/(<([^>]+)>)/gi, "")} />
       </div>
     ))
   }

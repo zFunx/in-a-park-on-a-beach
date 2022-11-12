@@ -1,8 +1,12 @@
-import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 export function setDocument({ db, collectionName, docName, docData, successCallback, errorCallback }) {
     const docRef = doc(db, collectionName, docName);
-    setDoc(docRef, docData).then(() => {
+    setDoc(docRef, {
+        ...docData,
+        created_at: serverTimestamp(),
+        updated_at: serverTimestamp()
+    }).then(() => {
         successCallback && successCallback();
     }).catch(err => {
         console.error("Error setting document: ", err);
@@ -12,7 +16,10 @@ export function setDocument({ db, collectionName, docName, docData, successCallb
 
 export function updateDocument({ db, collectionName, docName, docData, successCallback, errorCallback }) {
     const docRef = doc(db, collectionName, docName);
-    updateDoc(docRef, docData).then(() => {
+    updateDoc(docRef, {
+        ...docData,
+        updated_at: serverTimestamp()
+    }).then(() => {
         successCallback && successCallback();
     }).catch(err => {
         console.error("Error setting document: ", err);

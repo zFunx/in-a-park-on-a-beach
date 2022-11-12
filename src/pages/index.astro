@@ -5,6 +5,21 @@ import Layout from "../layouts/BaseLayout.astro";
 import RecentArticles from "../components/RecentArticles.astro";
 import Desc from "../components/Desc.astro";
 import Button from "../components/Button.jsx";
+
+
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+import { collection, query, where, getDocs, limit, orderBy } from "firebase/firestore";
+const db = getFirestore(firebase);
+const q = query(collection(db, "articles"), orderBy('updated_at', 'desc'), limit(8));
+const docs = await getDocs(q);
+const articles = []
+docs.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  // console.log(doc.id, " => ", doc.data());
+  articles.push(doc.data())
+});
 ---
 
 <Layout>
@@ -14,7 +29,7 @@ import Button from "../components/Button.jsx";
       <!-- <div class="mb-7 mx-2">
           <Desc />
         </div> -->
-      <RecentArticles />
+      <RecentArticles articles={articles} />
     </div>
 
     <!-- Aside -->
