@@ -1,4 +1,4 @@
-import { checkIfDocumentExists, setDocument, getDocument } from './firebase-helper'
+import { checkIfDocumentExists, setDocument, updateDocument, getDocument } from './firebase-helper'
 import { showErrorMessage } from './toast-notification'
 
 export async function createArticle({ db, title, description, successCallback }) {
@@ -20,6 +20,18 @@ export async function createArticle({ db, title, description, successCallback })
 
 }
 
-export async function getArticle({db, docName}){
+export async function updateArticle({ db, docName, title, description }) {
+    const collectionName = 'articles';
+    updateDocument({
+        db,
+        collectionName,
+        docName,
+        docData: {
+            title, description
+        },
+    })
+}
+
+export async function getArticle({ db, docName }) {
     return await getDocument(db, 'articles', docName)
 }

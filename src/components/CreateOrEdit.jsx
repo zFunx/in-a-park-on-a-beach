@@ -13,7 +13,7 @@ import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
 
 // helper
-import { createArticle, getArticle } from "../lib/article-firebase-helper";
+import { createArticle, updateArticle, getArticle } from "../lib/article-firebase-helper";
 
 const modules = {
   toolbar: [
@@ -46,15 +46,24 @@ const CreateOrEdit = (props) => {
   }
   const [description, setDescription] = useState("");
 
-  function onSubmit(value) {
-    createArticle({
-      db,
-      title,
-      description,
-      successCallback: (docName) => {
-        window.location.href = "/article/edit/" + docName;
-      },
-    });
+  function onSubmit() {
+    if (props.id) {
+      updateArticle({
+        db,
+        docName: props.id,
+        title,
+        description,
+      });
+    } else {
+      createArticle({
+        db,
+        title,
+        description,
+        successCallback: (docName) => {
+          window.location.href = "/article/edit/" + docName;
+        },
+      });
+    }
   }
 
   useEffect(() => {
@@ -70,7 +79,7 @@ const CreateOrEdit = (props) => {
 
   return (
     <div className="px-16 py-8">
-      <h1 className="text-3xl">Create Aritcle</h1>
+      <h1 className="text-3xl">{props.id ? 'Update' : 'Create'} Aritcle</h1>
       <br />
       <div>
         <label htmlFor="title" className="block text-2xl mb-2 font-medium">
