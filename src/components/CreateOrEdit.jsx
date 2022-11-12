@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Editot
 import ReactQuill from "react-quill";
@@ -13,7 +13,7 @@ import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
 
 // helper
-import { createArticle } from "../lib/article-firebase-helper";
+import { createArticle, getArticle } from "../lib/article-firebase-helper";
 
 const modules = {
   toolbar: [
@@ -39,17 +39,35 @@ const modules = {
 
 // Add image handler https://github.com/quilljs/quill/issues/2034
 
-const Create = () => {
+const CreateOrEdit = (props) => {
   const [title, setTitle] = useState("");
   function onTitleChanged(event) {
     setTitle(event.target.value);
   }
-
   const [description, setDescription] = useState("");
 
   function onSubmit(value) {
-    createArticle({db, title, description});
+    createArticle({
+      db,
+      title,
+      description,
+      successCallback: (docName) => {
+        window.location.href = "/article/edit/" + docName;
+      },
+    });
   }
+
+  useEffect(() => {
+    async function getArticleAsync() {
+      const savedArticle = await getArticle({ db, docName: props.id });
+      setTitle(savedArticle.title);
+      setDescription(savedArticle.description);
+    }
+    if (props.id) {
+      getArticleAsync();
+    }
+  }, [props.id]);
+
   return (
     <div className="px-16 py-8">
       <h1 className="text-3xl">Create Aritcle</h1>
@@ -78,10 +96,12 @@ const Create = () => {
           modules={modules}
           className="mb-8"
         />
-        <Button onClick={onSubmit}>Save</Button>
+        <Button disabled={!(title && description)} onClick={onSubmit}>
+          {props.id ? "Update" : "Save"}
+        </Button>
       </div>
     </div>
   );
 };
 
-export default Create;
+export default CreateOrEdit;

@@ -1,0 +1,11 @@
+---
+// Components
+import Layout from "../../../layouts/BaseLayout.astro";
+import CreateOrEdit from "../../../components/CreateOrEdit";
+
+const { id } = Astro.params;
+---
+
+<Layout>
+  <CreateOrEdit id={id} client:only="react" />
+</Layout>
