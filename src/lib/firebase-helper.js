@@ -1,4 +1,5 @@
 import { doc, setDoc, updateDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL, } from "firebase/storage";
 
 export function setDocument({ db, collectionName, docName, docData, successCallback, errorCallback }) {
     const docRef = doc(db, collectionName, docName);
@@ -40,8 +41,17 @@ export async function getDocument(db, collectionName, docName) {
     }
 }
 
-export async function checkIfDocumentExists(db, collectionName, docName){
+export async function checkIfDocumentExists(db, collectionName, docName) {
     const docRef = doc(db, collectionName, docName);
     const docSnap = await getDoc(docRef);
     return docSnap.exists();
+}
+
+export async function uploadDataURI(storage, dataURI) {
+    const fileRef = ref(storage, "articles/new");
+    const snapshot = await uploadString(fileRef, dataURI, "data_url");
+    if (snapshot) {
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        return downloadURL;
+    }
 }

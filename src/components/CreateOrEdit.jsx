@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Editot
 import ReactQuill from "react-quill";
@@ -10,43 +10,67 @@ import Button from "./Button.jsx";
 // Firebase
 import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
+import {getStorage} from "firebase/storage";
 const db = getFirestore(firebase);
+const storage = getStorage(firebase);
 
 // helper
-import { createArticle, updateArticle, getArticle } from "../lib/article-firebase-helper";
+import {
+  createArticle,
+  updateArticle,
+  getArticle,
+} from "../lib/article-firebase-helper";
+import { uploadDataURI } from "../lib/firebase-helper.js";
 
 const modules = {
-  toolbar: [
-    [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
+  toolbar: {
+    container: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      ["clean"],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
     ],
-    ["link", "image"],
-    [{ script: "sub" }, { script: "super" }], // superscript/subscript
-    ["clean"],
-    [
-      { align: "" },
-      { align: "center" },
-      { align: "right" },
-      { align: "justify" },
-    ],
-  ],
+  },
 };
 
-// Add image handler https://github.com/quilljs/quill/issues/2034
-
 const CreateOrEdit = (props) => {
+  // Title
   const [title, setTitle] = useState("");
   function onTitleChanged(event) {
     setTitle(event.target.value);
   }
-  const [description, setDescription] = useState("");
 
-  function onSubmit() {
+  // Description
+  const [description, setDescription] = useState("");
+  const descRef = useRef(null);
+
+  async function onSubmit() {
+    let description = descRef.current.getEditor().getContents().ops;
+    description = await Promise.all(
+      description.map(async (op) => {
+        // Find image in base64 encoding
+        if (op.insert?.image?.substring(0, 4) == "data") {
+          const newImgUrl = await uploadDataURI(storage, op.insert.image);
+          op.insert.image = newImgUrl;
+        }
+
+        return op;
+      })
+    );
+
     if (props.id) {
       updateArticle({
         db,
@@ -79,7 +103,7 @@ const CreateOrEdit = (props) => {
 
   return (
     <div className="px-16 py-8">
-      <h1 className="text-3xl">{props.id ? 'Update' : 'Create'} Aritcle</h1>
+      <h1 className="text-3xl">{props.id ? "Update" : "Create"} Aritcle</h1>
       <br />
       <div>
         <label htmlFor="title" className="block text-2xl mb-2 font-medium">
@@ -104,6 +128,7 @@ const CreateOrEdit = (props) => {
           onChange={setDescription}
           modules={modules}
           className="mb-8"
+          ref={descRef}
         />
         <Button disabled={!(title && description)} onClick={onSubmit}>
           {props.id ? "Update" : "Save"}

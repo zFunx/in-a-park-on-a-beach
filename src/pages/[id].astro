@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/BaseLayout.astro";
+const { id } = Astro.params;
+
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+import { getArticle } from "../lib/article-firebase-helper";
+const db = getFirestore(firebase);
+const article = await getArticle({ db, docName: id });
+---
+
+<Layout title={article.title}>
+    <div set:html={article.description}>
+        
+    </div>
+</Layout>
