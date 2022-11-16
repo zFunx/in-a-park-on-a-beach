@@ -1,19 +1,29 @@
 ---
 import Article from "../components/Article.astro";
-import { format } from 'date-fns'
+import { format } from "date-fns";
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
-const {articles} = Astro.props;
+const { articles } = Astro.props;
+
+function quillDeltaToText(delta) {
+  const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+  const text = html.replace(/(<([^>]+)>)/gi, "");
+  return text;
+}
 ---
 
 <div>
   {
     articles.map((article) => (
       <div class="mb-6">
-        <Article 
-        title={article.title}
-        // updated_at={article.updated_at.toDate()}
-        updated_at={format(new Date(article.updated_at.toDate()), 'do MMM yyyy')}
-        description={article.description.replace(/(<([^>]+)>)/gi, "")} />
+        <Article
+          title={article.title}
+          updated_at={format(
+            new Date(article.updated_at.toDate()),
+            "do MMM yyyy"
+          )}
+          description={quillDeltaToText(article.description)}
+        />
       </div>
     ))
   }
