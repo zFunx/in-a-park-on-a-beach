@@ -1,4 +1,5 @@
 ---
+import { format } from "date-fns";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
 import Layout from "../layouts/BaseLayout.astro";
@@ -12,13 +13,27 @@ const db = getFirestore(firebase);
 const article = await getArticle({ db, docName: id });
 
 function quillDeltaToHtml(delta) {
-  const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+  const html = new QuillDeltaToHtmlConverter(delta, {
+    customTagAttributes: (op) => {
+      // Setting alt attributes
+      if(op?.insert?.type === 'image' && op?.attributes?.alt){
+        return {
+          alt: op.attributes.alt
+        }
+      }
+    }
+  }).convert();
   return html;
 }
 ---
 
 <Layout title={article.title}>
-    <div set:html={quillDeltaToHtml(article.description)}>
-        
+  <div class="px-16 py-8">
+    <h1 class="text-3xl">{article.title}</h1>
+    <div class="text-gray-400 mt-2">
+      {format(new Date(article.updated_at.toDate()), "do MMM yyyy")}
     </div>
+    <br />
+    <div set:html={quillDeltaToHtml(article.description)}></div>
+  </div>
 </Layout>

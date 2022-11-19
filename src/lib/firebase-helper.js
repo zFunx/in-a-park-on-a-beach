@@ -47,8 +47,8 @@ export async function checkIfDocumentExists(db, collectionName, docName) {
     return docSnap.exists();
 }
 
-export async function uploadDataURI(storage, dataURI) {
-    const fileRef = ref(storage, "articles/new");
+export async function uploadDataURI({storage, name, dataURI}) {
+    const fileRef = ref(storage, `articles/${name}`);
     const snapshot = await uploadString(fileRef, dataURI, "data_url");
     if (snapshot) {
         const downloadURL = await getDownloadURL(snapshot.ref);

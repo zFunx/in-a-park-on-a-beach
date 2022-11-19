@@ -10,7 +10,7 @@ import Button from "./Button.jsx";
 // Firebase
 import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
-import {getStorage} from "firebase/storage";
+import { getStorage } from "firebase/storage";
 const db = getFirestore(firebase);
 const storage = getStorage(firebase);
 
@@ -62,9 +62,15 @@ const CreateOrEdit = (props) => {
     description = await Promise.all(
       description.map(async (op) => {
         // Find image in base64 encoding
-        if (op.insert?.image?.substring(0, 4) == "data") {
-          const newImgUrl = await uploadDataURI(storage, op.insert.image);
-          op.insert.image = newImgUrl;
+        if (op.insert?.image) {
+          if (op.insert.image.substring(0, 4) == "data") {
+            const newImgUrl = await uploadDataURI({storage, name: `${title} ${Date.now()}`, dataURI: op.insert.image, });
+            op.insert.image = newImgUrl;
+          }
+
+          op.attributes = {
+            alt: `${title}`,
+          };
         }
 
         return op;
@@ -129,6 +135,7 @@ const CreateOrEdit = (props) => {
           modules={modules}
           className="mb-8"
           ref={descRef}
+          // formats={formats}
         />
         <Button disabled={!(title && description)} onClick={onSubmit}>
           {props.id ? "Update" : "Save"}
