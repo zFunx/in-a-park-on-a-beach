@@ -1,8 +1,8 @@
 ---
 const defaultImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNM+Q8AAc0BZX6f84gAAAAASUVORK5CYII='
 ---
-  <div
-    class="border-2 border-b-4 border-gray-200 rounded-xl hover:bg-gray-50 bg-white cursor-pointer"
+  <a href={Astro.props.id}
+    class="block border-2 border-b-4 border-gray-200 rounded-xl hover:bg-gray-50 bg-white cursor-pointer"
   >
     <div class="grid grid-cols-4 p-5 gap-y-2">
       <!-- Profile Picture -->
@@ -20,4 +20,4 @@ const defaultImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAA
         <p class="text-gray-400 mt-1 text-sm">{Astro.props.updated_at}</p>
       </div>
     </div>
-  </div>
+  </a>

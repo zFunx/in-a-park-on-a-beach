@@ -1,8 +1,8 @@
 ---
-import Article from "../components/Article.astro";
 import { format } from "date-fns";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
+import Article from "../components/Article.astro";
 const { articles } = Astro.props;
 
 function quillDeltaToText(delta) {
@@ -17,6 +17,7 @@ function quillDeltaToText(delta) {
     articles.map((article) => (
       <div class="mb-6">
         <Article
+          id={article.id}
           title={article.title}
           updated_at={format(
             new Date(article.updated_at.toDate()),

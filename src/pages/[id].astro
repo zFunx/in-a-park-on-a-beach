@@ -1,4 +1,6 @@
 ---
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+
 import Layout from "../layouts/BaseLayout.astro";
 const { id } = Astro.params;
 
@@ -8,10 +10,15 @@ import { getFirestore } from "firebase/firestore";
 import { getArticle } from "../lib/article-firebase-helper";
 const db = getFirestore(firebase);
 const article = await getArticle({ db, docName: id });
+
+function quillDeltaToHtml(delta) {
+  const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+  return html;
+}
 ---
 
 <Layout title={article.title}>
-    <div set:html={article.description}>
+    <div set:html={quillDeltaToHtml(article.description)}>
         
     </div>
 </Layout>
