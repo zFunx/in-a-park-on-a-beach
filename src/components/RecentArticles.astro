@@ -10,6 +10,15 @@ function quillDeltaToText(delta) {
   const text = html.replace(/(<([^>]+)>)/gi, "");
   return text;
 }
+
+function getFirstImg(delta){
+  const firstImgOp = delta.find(op => op?.insert?.image);
+  if(firstImgOp){
+    return firstImgOp.insert.image
+  }else{
+    return null
+  }
+}
 ---
 
 <div>
@@ -18,6 +27,7 @@ function quillDeltaToText(delta) {
       <div class="mb-6">
         <Article
           id={article.id}
+          img={getFirstImg(article.description)}
           title={article.title}
           updated_at={format(
             new Date(article.updated_at.toDate()),
