@@ -1,8 +1,12 @@
 ---
+// Helpers
 import { format } from "date-fns";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
+// Components
 import Layout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button";
+
 const { id } = Astro.params;
 
 // Firebase
@@ -29,6 +33,12 @@ function quillDeltaToHtml(delta) {
 
 <Layout title={article.title}>
   <div class="px-16 py-8">
+    <div class="mb-3 flex gap-4">
+      <a href={`/edit/${id}`}>
+      <Button>Edit</Button>
+      </a>
+      <Button>Delete</Button>
+    </div>
     <h1 class="text-3xl">{article.title}</h1>
     <div class="text-gray-400 mt-2">
       {format(new Date(article.updated_at.toDate()), "do MMM yyyy")}
