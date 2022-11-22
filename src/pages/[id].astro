@@ -6,6 +6,7 @@ import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 // Components
 import Layout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button";
+import DeleteArticleButton from "../components/DeleteArticleButton"
 
 const { id } = Astro.params;
 
@@ -37,7 +38,7 @@ function quillDeltaToHtml(delta) {
       <a href={`/edit/${id}`}>
       <Button>Edit</Button>
       </a>
-      <Button>Delete</Button>
+      <DeleteArticleButton articleId={id} client:load />
     </div>
     <h1 class="text-3xl">{article.title}</h1>
     <div class="text-gray-400 mt-2">

@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, updateDoc, getDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL, } from "firebase/storage";
 
 export function setDocument({ db, collectionName, docName, docData, successCallback, errorCallback }) {
@@ -39,6 +39,10 @@ export async function getDocument(db, collectionName, docName) {
         console.log("No such document!");
         return null;
     }
+}
+
+export async function deleteDocument({db, collectionName, docName}){
+    await deleteDoc(doc(db, collectionName, docName));
 }
 
 export async function checkIfDocumentExists(db, collectionName, docName) {
