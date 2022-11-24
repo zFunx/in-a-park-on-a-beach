@@ -11,3 +11,11 @@ export function logoutByCookie() {
     };
     document.cookie = JSON.stringify(cookieObj);
 }
+
+export function checkIfLoggedIn(reqHeaders) {
+    const cookie = reqHeaders.get("cookie");
+    const cookieObj = JSON.parse(cookie);
+    const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
+
+    return isLoggedIn;
+}

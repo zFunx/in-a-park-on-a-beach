@@ -4,6 +4,7 @@ import Header from "../components/Header.jsx";
 
 // Helpers
 import { getTitle } from "../lib/about-site-firebase-helper";
+import { checkIfLoggedIn } from "../lib/cookie-helper.js";
 
 // Style
 import "toastify-js/src/toastify.css";
@@ -24,9 +25,7 @@ if (!navTitle) {
 }
 const title = Astro.props.title ?? navTitle;
 
-const cookie = Astro.request.headers.get("cookie");
-const cookieObj = JSON.parse(cookie);
-const isLoggedIn = cookieObj ? cookieObj.isLoggedIn : false;
+const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
 ---
 
 <!DOCTYPE html>

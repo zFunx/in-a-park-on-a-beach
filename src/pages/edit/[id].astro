@@ -3,6 +3,14 @@
 import Layout from "../../layouts/BaseLayout.astro";
 import CreateOrEdit from "../../components/CreateOrEdit";
 
+// Helpers
+import { checkIfLoggedIn } from "../../lib/cookie-helper";
+
+const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
+if(!isLoggedIn){
+  return Astro.redirect('/')
+}
+
 const { id } = Astro.params;
 ---
 
