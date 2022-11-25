@@ -1,4 +1,4 @@
-Unistall Firebase admin
+Unistall Firebase admin, nanostores if not used
 
 # Welcome to [Astro](https://astro.build)
 

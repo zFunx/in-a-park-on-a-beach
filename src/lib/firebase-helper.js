@@ -41,7 +41,7 @@ export async function getDocument(db, collectionName, docName) {
     }
 }
 
-export async function deleteDocument({db, collectionName, docName}){
+export async function deleteDocument({ db, collectionName, docName }) {
     await deleteDoc(doc(db, collectionName, docName));
 }
 
@@ -51,7 +51,7 @@ export async function checkIfDocumentExists(db, collectionName, docName) {
     return docSnap.exists();
 }
 
-export async function uploadDataURI({storage, name, dataURI}) {
+export async function uploadDataURI({ storage, name, dataURI }) {
     const fileRef = ref(storage, `articles/${name}`);
     const snapshot = await uploadString(fileRef, dataURI, "data_url");
     if (snapshot) {

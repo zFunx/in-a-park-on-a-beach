@@ -46,6 +46,9 @@ const modules = {
   },
 };
 
+import { getAuth } from "firebase/auth";
+getAuth(firebase);
+
 const CreateOrEdit = (props) => {
   // Title
   const [title, setTitle] = useState("");
