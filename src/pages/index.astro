@@ -32,7 +32,7 @@ const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
 <Layout>
   <div class="flex flex-col-reverse md:flex-row">
     <!-- List of Articles -->
-    <div class={`basis-2/3 pt-${isLoggedIn ? 0 : 8} px-4 pb-4 md:px-16 md:py-8 flex flex-col items-center`}>
+    <div class={`basis-2/3 ${isLoggedIn ? 'pt-0' : 'pt-8'} px-4 pb-4 md:px-16 md:py-8 flex flex-col items-center`}>
       <!-- <div class="mb-7 mx-2">
           <Desc />
         </div> -->

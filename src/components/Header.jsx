@@ -40,7 +40,7 @@ const Header = (props) => {
     <header>
       <nav className="bg-white drop-shadow px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between">
-          <div className="flex flex">
+          <div className="flex">
             {editTitle ? (
               <span className="flex items-center">
                 <Logo title={title} />
@@ -75,7 +75,7 @@ const Header = (props) => {
             <div className="flex items-center lg:order-2">
               <a
                 href="logout"
-                className="text-black hover:bg-gray-50 hover:text-white focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                className="text-black hover:bg-gray-50 hover:text-white focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
               >
                 Log out
               </a>
