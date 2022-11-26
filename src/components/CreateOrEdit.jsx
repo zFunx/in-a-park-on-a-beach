@@ -93,7 +93,7 @@ const CreateOrEdit = (props) => {
         title,
         description,
         successCallback: (docName) => {
-          window.location.href = "/article/edit/" + docName;
+          window.location.href = "/edit/" + docName;
         },
       });
     }
