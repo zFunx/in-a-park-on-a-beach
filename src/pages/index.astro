@@ -27,7 +27,7 @@ const db = getFirestore(firebase);
 // Get articles
 const beforeDateStr = getQueryParam("before") || undefined;
 const beforeDate = new Date(beforeDateStr).toString() !== "Invalid Date" ? new Date(beforeDateStr) : null;
-const perPageArticles = 8;
+const perPageArticles = 2;
 const q = query(
   collection(db, "articles"),
   orderBy("updated_at", "desc"),
