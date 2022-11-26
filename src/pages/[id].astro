@@ -2,6 +2,7 @@
 // Helpers
 import { format } from "date-fns";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+import { checkIfLoggedIn } from "../lib/cookie-helper";
 
 // Components
 import Layout from "../layouts/BaseLayout.astro";
@@ -30,16 +31,18 @@ function quillDeltaToHtml(delta) {
   }).convert();
   return html;
 }
+
+const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
 ---
 
 <Layout title={article.title}>
-  <div class="px-16 py-8">
-    <div class="mb-3 flex gap-4">
+  <div class="py-8 px-6 md:px-16 md:py-8">
+    {isLoggedIn &&<div class="mb-3 flex gap-4">
       <a href={`/edit/${id}`}>
       <Button>Edit</Button>
       </a>
       <DeleteArticleButton articleId={id} client:load />
-    </div>
+    </div>}
     <h1 class="text-3xl">{article.title}</h1>
     <div class="text-gray-400 mt-2">
       {format(new Date(article.updated_at.toDate()), "do MMM yyyy")}
