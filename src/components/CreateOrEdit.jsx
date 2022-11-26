@@ -111,7 +111,7 @@ const CreateOrEdit = (props) => {
   }, [props.id]);
 
   return (
-    <div className="px-16 py-8">
+    <div className="px-8 md:px-16 py-8">
       <h1 className="text-3xl">{props.id ? "Update" : "Create"} Aritcle</h1>
       <br />
       <div>
