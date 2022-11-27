@@ -1,6 +1,43 @@
+---
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+const db = getFirestore(firebase);
+
+// Helpers
+import { checkIfDocumentExists } from "../lib/firebase-helper.js";
+
+const pages = [
+  {
+    id: "privacy",
+    link: "/privacy",
+    name: "Privacy",
+  },
+  {
+    id: "terms",
+    link: "/terms",
+    name: "Terms",
+  },
+  {
+    id: "about",
+    link: "/about",
+    name: "About",
+  },
+  {
+    id: "author",
+    link: "/author",
+    name: "Author",
+  },
+];
+const pageExists = {};
+
+await Promise.all(
+  pages.map(async (page) => {
+    pageExists[page.id] = await checkIfDocumentExists(db, "articles", page.id);
+  })
+);
+---
+
 <div class={`flex gap-8 ${Astro.props.class}`}>
-    <a href="/privacy">Privacy</a>
-    <a href="/privacy">Terms</a>
-    <a href="/privacy">About</a>
-    <a href="/privacy">Author</a>
+  {pages.map((page) => pageExists[page.id] && <a href={page.link}>{page.name}</a>)}
 </div>
