@@ -10,6 +10,8 @@ import { deleteArticle } from "../lib/article-firebase-helper";
 import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
+import { getAuth } from "firebase/auth";
+getAuth(firebase);
 
 const DeleteArticleButton = props => {
   const [showModal, setShowModal] = useState(false);
