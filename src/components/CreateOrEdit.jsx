@@ -143,6 +143,11 @@ const CreateOrEdit = (props) => {
         <Button disabled={!(title && description)} onClick={onSubmit}>
           {props.id ? "Update" : "Save"}
         </Button>
+        {props.id &&<a className="ml-4" target="_blank" href={`/${props.id}`}>
+          <Button>
+            View
+          </Button>
+        </a>}
       </div>
     </div>
   );
