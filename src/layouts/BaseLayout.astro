@@ -1,6 +1,7 @@
 ---
-// import Header from "../components/Header.astro";
+// Components
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.astro";
 
 // Helpers
 import { getTitle } from "../lib/about-site-firebase-helper";
@@ -8,7 +9,7 @@ import { checkIfLoggedIn } from "../lib/cookie-helper.js";
 
 // Style
 import "toastify-js/src/toastify.css";
-import "../assets/index.css"
+import "../assets/index.css";
 
 export interface Props {
   title?: string;
@@ -27,6 +28,8 @@ if (!navTitle) {
 const title = Astro.props.title ?? navTitle;
 
 const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
+
+// console.log("Astro", Astro);
 ---
 
 <!DOCTYPE html>
@@ -48,5 +51,6 @@ const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
     }
 
     <slot />
+    {Astro.url.pathname != "/" && <Footer class="p-4 justify-center" />}
   </body>
 </html>
