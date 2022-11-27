@@ -64,6 +64,13 @@ docs.forEach((doc) => {
   docIndex++;
 });
 
+
+// Get Author
+// const author = await getArticle({db, docName: 'author'})
+// console.log('author', description);
+
+
+
 const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
 ---
 
@@ -75,9 +82,9 @@ const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
         isLoggedIn ? "pt-0" : "pt-8"
       } px-4 pb-4 md:px-16 md:py-8 flex flex-col items-center`}
     >
-      <!-- <div class="mb-7 mx-2">
+      <div class="mb-7 mx-2">
           <Desc />
-        </div> -->
+        </div>
       <RecentArticles articles={articles} />
       <div class="flex gap-4">
         {

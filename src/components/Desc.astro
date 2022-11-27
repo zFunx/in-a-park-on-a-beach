@@ -1,3 +1,26 @@
-<div>
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel ex iusto facere consequuntur doloribus corrupti eos exercitationem ipsum blanditiis at.
-</div>
+---
+// Helpers
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+const db = getFirestore(firebase);
+
+// Get Description
+import { getArticle } from "../lib/article-firebase-helper";
+const description = await getArticle({ db, docName: "about" });
+
+// console.log('description', description.description);
+
+function quillDeltaToText(delta) {
+  const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+  const text = html.replace(/(<([^>]+)>)/gi, "");
+  return text;
+}
+
+---
+
+{description && <a href="/about" class="truncate-4">
+  {quillDeltaToText(description.description)}
+</a>}
