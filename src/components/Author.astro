@@ -1,0 +1,43 @@
+---
+// Helpers
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+
+// Firebase
+import firebase from "../lib/init-firebase";
+import { getFirestore } from "firebase/firestore";
+const db = getFirestore(firebase);
+
+// Get Description
+import { getArticle } from "../lib/article-firebase-helper";
+const author = await getArticle({ db, docName: "author" });
+
+// console.log('description', description.description);
+
+function quillDeltaToText(delta) {
+  const html = new QuillDeltaToHtmlConverter(delta, {}).convert();
+  const text = html.replace(/(<([^>]+)>)/gi, "");
+  return text;
+}
+
+function getFirstImg(delta) {
+  const firstImgOp = delta.find((op) => op?.insert?.image);
+  if (firstImgOp) {
+    return firstImgOp.insert.image;
+  } else {
+    return null;
+  }
+}
+---
+
+{
+  author && (
+    <div class="flex mt-4 flex-col items-center md:items-start">
+      <a href="/author" class="w-[300px] h-[300px] m-4">
+        <img class="rounded-full object-cover object-center w-full h-full" src={getFirstImg(author.description)} />
+      </a>
+      <a href="/author" class="truncate-4">
+        {quillDeltaToText(author.description)}
+      </a>
+    </div>
+  )
+}
