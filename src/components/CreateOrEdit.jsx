@@ -26,7 +26,7 @@ const modules = {
   toolbar: {
     container: [
       [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
+      ["bold", "italic", "underline", "strike", "blockquote", "code", "code-block"],
       [
         { list: "ordered" },
         { list: "bullet" },

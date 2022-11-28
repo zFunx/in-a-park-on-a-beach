@@ -6,14 +6,26 @@ import { Tick } from "@styled-icons/typicons";
 
 // Helpers
 import { setTitle as setTitleInFirebase } from "../lib/about-site-firebase-helper.js";
+import { getArticle } from "../lib/article-firebase-helper.js";
 
 // Firebase
 import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
 
+// Get logo
+const description = await getArticle({ db, docName: "about" });
+function getFirstImg(delta){
+  const firstImgOp = delta.find(op => op?.insert?.image);
+  if(firstImgOp){
+    return firstImgOp.insert.image
+  }else{
+    return null
+  }
+}
+
 const Logo = (props) => (
-  <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt={props.title} />
+  <img src={props.img ?? "/favicon.svg"} className="mr-3 h-6 sm:h-9" alt={props.title} />
 );
 
 const Header = (props) => {
@@ -43,7 +55,7 @@ const Header = (props) => {
           <div className="flex">
             {editTitle ? (
               <span className="flex items-center">
-                <Logo title={title} />
+                <Logo title={title} img={getFirstImg(description.description)}/>
                 <input
                   value={title}
                   onChange={onTitleChanged}
@@ -52,7 +64,7 @@ const Header = (props) => {
               </span>
             ) : (
               <a href="/" className="flex items-center">
-                <Logo title={title} />
+                <Logo title={title} img={getFirstImg(description.description)}/>
                 <span className="self-center text-xl font-semibold whitespace-nowrap text-black">
                   {title}
                 </span>
