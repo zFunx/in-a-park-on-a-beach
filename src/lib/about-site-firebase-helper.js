@@ -16,5 +16,10 @@ export function setTitle({ db, title }) {
 
 export async function getTitle(db){
     const doc = await getDocument(db, "about-site", "title")
-    return doc.title;
+
+    if(doc){
+        return doc.title;
+    }else{
+        return null
+    }
 }

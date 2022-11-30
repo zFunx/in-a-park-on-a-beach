@@ -55,7 +55,7 @@ const Header = (props) => {
           <div className="flex">
             {editTitle ? (
               <span className="flex items-center">
-                <Logo title={title} img={getFirstImg(description.description)}/>
+                <Logo title={title} img={description ? getFirstImg(description.description) : null}/>
                 <input
                   value={title}
                   onChange={onTitleChanged}

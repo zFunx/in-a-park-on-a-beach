@@ -1,5 +1,4 @@
-Unistall Firebase admin, nanostores if not used
-
+Sync the fork https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-for
 # Welcome to [Astro](https://astro.build)
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
