@@ -64,7 +64,7 @@ const Header = (props) => {
               </span>
             ) : (
               <a href="/" className="flex items-center">
-                <Logo title={title} img={getFirstImg(description.description)}/>
+                <Logo title={title} img={description ? getFirstImg(description.description) : null}/>
                 <span className="self-center text-xl font-semibold whitespace-nowrap text-black">
                   {title}
                 </span>
