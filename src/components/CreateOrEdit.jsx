@@ -46,6 +46,7 @@ const modules = {
   },
 };
 
+// Auth
 import { getAuth } from "firebase/auth";
 getAuth(firebase);
 

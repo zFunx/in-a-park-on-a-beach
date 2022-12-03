@@ -13,6 +13,10 @@ import firebase from "../lib/init-firebase";
 import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebase);
 
+// Auth
+import { getAuth } from "firebase/auth";
+getAuth(firebase);
+
 // Get logo
 const description = await getArticle({ db, docName: "about" });
 function getFirstImg(delta){
