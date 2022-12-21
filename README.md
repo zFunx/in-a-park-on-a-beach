@@ -1,50 +1,68 @@
-Sync the fork https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-for
-# Welcome to [Astro](https://astro.build)
+# In a Park. On a Beach
+We just want to create a free minimal optimized SEO friendly blog. 
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+## Pages
+We want very minimal set of pages as follows:
+1. Home page /
+1. Login page /login
+1. Logout page /logout
+1. Create page /create
+1. Edit page /edit/{slug}
+1. Article page /{slug}
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Setup
+### Firebase Project setup
+1. Create a Firebase project
+1. Create a Firestore database and set this rule to protect unauthorized publishing of articles:
+    ```json
+    rules_version = '2';
+    service cloud.firestore {
+        match /databases/{database}/documents {
+            match /{document=**} {
+            allow read: if true;
+            allow write: if request.auth != null;
+            }
+        }
+    }
 
-![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
+    ```
+1. Create a Firestore storage to store images
+1. Enable email authentication
+1. Add a user with email and password so that no one else can write article but you
+1. Create a web app
+### Vercel Project setup
+1. Fork this project
+1. Host it on Vercel
+1. Copy Firebase creds of created web app and add them to environment variables on Vercel like below:
+    ```
+    PUBLIC_apiKey=
+    PUBLIC_authDomain=
+    PUBLIC_projectId=
+    PUBLIC_storageBucket=
+    PUBLIC_messagingSenderId=
+    PUBLIC_appId=
+    PUBLIC_measurementId=
+    ``` 
+1. Redeploy the project again
 
+## Create content
+### Update Title and Tab Title
+Click on pencil icon in header after log in from `/login`
+### Create content
+1. After login, click "Create an article" on home page to go to `/create`
+2. `Save` article. After saving it will redirect to `/edit/{new-slug}` 
+### Edit and Delete content
+1. Log in. Visit an article. Click `Edit` or `Delete`
+### Create Privacy, Terms, About and Author page
+- Create articles with title `Privacy`, `Terms`, `About` and `Author`. Links will also be shown in Footer. 
+- About page's content's first four lines will be shown on Home page at top. Clicking on it will redirect to About page. 
+- About page's first image will be shown next to header title.
+- Author description will be show on right hand side on home page with first image
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                             |
-| :--------------------- | :------------------------------------------------- |
-| `npm install`          | Installs dependencies                              |
-| `npm run dev`          | Starts local dev server at `localhost:3000`        |
-| `npm run build`        | Build your production site to `./dist/`            |
-| `npm run preview`      | Preview your build locally, before deploying       |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro preview` |
-| `npm run astro --help` | Get help using the Astro CLI                       |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### Known issues
+1. Favicon is not available
+1. No draft stage
+1. Not using Caching
+1. Some design issues
+1. No confirmation for saving/updating an article and no loading state
+1. 404 page doesn't exist
