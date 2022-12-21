@@ -1,5 +1,5 @@
 # In a Park. On a Beach
-We just want to create a free minimal optimized SEO friendly blog. 
+We just want to create a free minimal optimized SEO friendly blog with the help of `Firebase` and `Vercel`
 
 ## Pages
 We want very minimal set of pages as follows:
