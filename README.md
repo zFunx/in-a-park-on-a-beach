@@ -1,5 +1,5 @@
 # In a Park. On a Beach
-We just want to create a free minimal optimized SEO friendly blog with the help of `Firebase` and `Vercel`
+We just want to create a free minimal optimized SEO friendly blog with the help of `Firebase` and `Vercel` . Check out the result here https://inaparkonabeach.com/
 
 ## Pages
 We want very minimal set of pages as follows:
@@ -14,7 +14,7 @@ We want very minimal set of pages as follows:
 ### Firebase Project setup
 1. Create a Firebase project
 1. Create a Firestore database and set this rule to protect unauthorized publishing of articles:
-    ```json
+    ```
     rules_version = '2';
     service cloud.firestore {
         match /databases/{database}/documents {
