@@ -3,6 +3,13 @@ import Layout from "../layouts/BaseLayout.astro";
 
 // Components
 import LoginForm from "../components/LoginForm";
+import { checkIfLoggedIn } from "../lib/cookie-helper";
+
+const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
+
+if(isLoggedIn){
+  return Astro.redirect('/')
+}
 ---
 
 <Layout title="Login">
