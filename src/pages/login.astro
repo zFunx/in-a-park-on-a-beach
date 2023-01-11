@@ -3,10 +3,11 @@ import Layout from "../layouts/BaseLayout.astro";
 
 // Components
 import LoginForm from "../components/LoginForm";
+
+// Helpers
 import { checkIfLoggedIn } from "../lib/cookie-helper";
 
 const isLoggedIn = checkIfLoggedIn(Astro.request.headers);
-
 if(isLoggedIn){
   return Astro.redirect('/')
 }
